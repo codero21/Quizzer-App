@@ -22,15 +22,24 @@ class ViewController: UIViewController {
                 "Three + Eight is less than Ten"
                 ]
     
+    var questionNumber = 0
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        update label when view is loaded
-        questionLabel.text = quiz[0]
+        updateUI()
     }
 
     @IBAction func answerButtonPressed(_ sender: UIButton) {
+//        increase questionNumber by 1 each time button pressed
+        questionNumber += 1
+        updateUI()
+    }
+    
+    func updateUI() {
+        questionLabel.text = quiz[questionNumber]
     }
     
 }
