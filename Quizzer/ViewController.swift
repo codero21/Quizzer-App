@@ -17,9 +17,9 @@ class ViewController: UIViewController {
     
 //    create array of questions
     let quiz = [
-                "Four + Two is equal to Six.",
-                "Five - Three is greater than One",
-                "Three + Eight is less than Ten"
+                ["Four + Two is equal to Six.", "True"],
+                ["Five - Three is greater than One", "True"],
+                ["Three + Eight is less than Ten", "False"]
                 ]
     
     var questionNumber = 0
@@ -33,13 +33,32 @@ class ViewController: UIViewController {
     }
 
     @IBAction func answerButtonPressed(_ sender: UIButton) {
+        
+//        get user input (true/false)
+        let userAnswer = sender.currentTitle
+        let actualAnswer = quiz[questionNumber][1]
+        
+        if userAnswer == actualAnswer {
+            print("Correct!")
+        } else {
+            print("Incorrect")
+        }
+        
+        
+//        check to see if we are at the end of the array
+        if questionNumber + 1 < quiz.count {
 //        increase questionNumber by 1 each time button pressed
-        questionNumber += 1
+            questionNumber += 1
+        } else {
+            questionNumber = 0
+        }
+        
+
         updateUI()
     }
     
     func updateUI() {
-        questionLabel.text = quiz[questionNumber]
+        questionLabel.text = quiz[questionNumber][0]
     }
     
 }
