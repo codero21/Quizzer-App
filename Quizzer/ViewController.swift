@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
-    
+ 
     
 //    initialize structs of Questions
     let quiz = [
@@ -34,14 +34,6 @@ class ViewController: UIViewController {
     ]
     
     
-    
-////    create array of questions
-//    let quiz = [
-//                ["Four + Two is equal to Six.", "True"],
-//                ["Five - Three is greater than One", "True"],
-//                ["Three + Eight is less than Ten", "False"]
-//                ]
- 
     var questionNumber = 0
     
 
@@ -82,6 +74,8 @@ class ViewController: UIViewController {
         questionLabel.text = quiz[questionNumber].text
         trueButton.backgroundColor = UIColor.clear
         falseButton.backgroundColor = UIColor.clear
+        
+        progressView.progress = Float(questionNumber + 1) / Float(quiz.count)
     }
     
 }
