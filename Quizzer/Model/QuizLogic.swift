@@ -1,22 +1,16 @@
 //
-//  ViewController.swift
+//  QuizLogic.swift
 //  Quizzer
 //
-//  Created by Rollin Francois on 4/20/20.
+//  Created by Rollin Francois on 4/21/20.
 //  Copyright © 2020 Francois Technology. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
+struct QuizLogic {
     
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
- 
-    
-//    initialize structs of Questions
+    //    initialize structs of Questions
     let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
         Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -30,54 +24,53 @@ class ViewController: UIViewController {
         Question(q: "The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.", a: "False"),
         Question(q: "No piece of square dry paper can be folded in half more than 7 times.", a: "False"),
         Question(q: "Chocolate affects a dog's heart and nervous system; a few ounces are enough to kill a small dog.", a: "True")
-    
+        
     ]
     
-    
     var questionNumber = 0
+    var score = 0
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    
+    mutating func checkAnswer(_ userAnswer: String) -> Bool {
+        print(userAnswer)
         
-//        update label when view is loaded
-        updateUI()
-    }
-
-    @IBAction func answerButtonPressed(_ sender: UIButton) {
-        
-//        get user input (true/false)
-        let userAnswer = sender.currentTitle
-        let actualAnswer = quiz[questionNumber].answer
-        
-        if userAnswer == actualAnswer {
-            sender.backgroundColor = UIColor.green
+        if userAnswer == quiz[questionNumber].answer {
+            // user got it correct
+            score += 1
+            return true
         } else {
-            sender.backgroundColor = UIColor.red
+            // user got it wrong
+            return false
         }
+    }
+    
+    func getScore() -> Int {
+        return score
+    }
+    
+    func getQuestionText() -> String {
+        return quiz[questionNumber].text
         
+    }
+    
+    func getProgress() -> Float {
+        let progress =  Float(questionNumber) / Float(quiz.count)
+        return progress
         
-//        check to see if we are at the end of the array
+    }
+    
+    mutating func nextQuestion() {
+        
+        //        check to see if we are at the end of the array / quiz progression
         if questionNumber + 1 < quiz.count {
-//        increase questionNumber by 1 each time button pressed
+            //        increase questionNumber by 1 each time button pressed
             questionNumber += 1
         } else {
+            // reset quiz
             questionNumber = 0
+            score = 0
         }
-        
-        // timer for button's background color
-        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
-
-    }
-    
-    @objc func updateUI() {
-        questionLabel.text = quiz[questionNumber].text
-        trueButton.backgroundColor = UIColor.clear
-        falseButton.backgroundColor = UIColor.clear
-        
-        progressView.progress = Float(questionNumber + 1) / Float(quiz.count)
     }
     
 }
-
-
